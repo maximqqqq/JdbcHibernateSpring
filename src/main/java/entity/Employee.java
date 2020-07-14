@@ -1,8 +1,15 @@
 package entity;
 
-import javax.persistence.*;
-
-import java.util.Objects;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.Set;
 
 @Entity
@@ -10,7 +17,7 @@ import java.util.Set;
 public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "NAME")
     private String name;
@@ -20,7 +27,7 @@ public class Employee {
     private int years;
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Cars> cars;
 
     public Employee() {
@@ -72,24 +79,6 @@ public class Employee {
 
     public void setCars(Set<Cars> cars) {
         this.cars = cars;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Employee employe = (Employee) o;
-        return years == employe.years &&
-                Objects.equals(id, employe.id) &&
-                Objects.equals(name, employe.name) &&
-                Objects.equals(surname, employe.surname) &&
-                Objects.equals(address, employe.address) &&
-                Objects.equals(cars, employe.cars);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, surname, years, address, cars);
     }
 
     @Override

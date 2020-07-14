@@ -1,20 +1,23 @@
-import bl.HibernateUtil;
 import entity.Address;
-import entity.Employee;
 import entity.Cars;
-import servise.AddresServise;
-import servise.EmployeeServise;
-import servise.CarsServise;
+import entity.Employee;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import repository.AddressRepository;
+import repository.CarsRepository;
+import repository.EmployeeRepository;
 
 import java.sql.SQLException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Application {
     public static void main(String[] args) throws SQLException {
-        AddresServise addresServise = new AddresServise();
-        EmployeeServise employeeServise = new EmployeeServise();
-        CarsServise carsServise = new CarsServise();
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("context.xml");
+
+        AddressRepository addressRepository = context.getBean(AddressRepository.class);
+        EmployeeRepository employeeRepository = context.getBean(EmployeeRepository.class);
+        CarsRepository carsRepository = context.getBean(CarsRepository.class);
 
 
         Address address = new Address();
@@ -36,19 +39,14 @@ public class Application {
         cars1.add(cars);
         employee.setCars(cars1);
 
-        try {
-            addresServise.add(address);
-            employeeServise.add(employee);
-            carsServise.add(cars);
-        }catch (SQLException e){
-            System.err.println("ERRORE "+e);
-            e.printStackTrace();
+        addressRepository.save(address);
+        employeeRepository.save(employee);
+        carsRepository.save(cars);
+
+        System.out.println("************************");
+        List<Employee> employeeList = (List<Employee>) employeeRepository.findAll();
+        for (Employee e : employeeList) {
+            System.out.println(e);
         }
-
-//        //get
-//        Address a = addresServise.getById(1L);
-//        System.out.println(a);
-
-        HibernateUtil.shutdowm();
     }
 }

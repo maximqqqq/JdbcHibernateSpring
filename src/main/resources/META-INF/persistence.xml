@@ -1,0 +1,4 @@
+<persistence-unit name="warehouse" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+</persistence-unit>

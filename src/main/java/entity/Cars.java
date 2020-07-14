@@ -1,15 +1,21 @@
 package entity;
 
-import javax.persistence.*;
-
-import java.util.Objects;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "CARS")
 public class Cars {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(name = "MODEL")
     private String model;
@@ -52,22 +58,6 @@ public class Cars {
 
     public void setEmploye(Employee employe) {
         this.employee = employee;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Cars cars = (Cars) o;
-        return years == cars.years &&
-                Objects.equals(id, cars.id) &&
-                Objects.equals(model, cars.model) &&
-                Objects.equals(employee, cars.employee);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, model, years, employee);
     }
 
     @Override
